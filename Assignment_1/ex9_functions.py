@@ -1,8 +1,12 @@
-def sieve(n):
-    """Holas ntehuneohu
-netuhneohunteo
-eohunteohuntheou
-ntheuntheontuh"""
+def sieve(n: int) -> [int]:
+    """ Sieve of Eratosthenes algorithm.
+
+        Args:
+            n: range of the sieve.
+
+        Returns:
+            List of primes numbers up to n.
+    """
     ns = []
     primes = []
     
@@ -13,5 +17,3 @@ ntheuntheontuh"""
                 ns.append(j)
 
     return primes
-
-print(sieve(100))
