@@ -1,7 +1,15 @@
 from numpy import pi, sin
 
-def S(t,n,T):
-    # t is of type list
+def S(t: list, n: int, T: float) -> list:
+    """ Fourier Series Aproximation for f(t).
+
+        Args:
+            t: list of values of t.
+            T: constant T.
+
+        Result:
+            List with aproximations of f(t)
+    """
 
     result = []
     for m in t:
@@ -17,8 +25,21 @@ def S(t,n,T):
 
     return result
 
-def f(t,T):
-    # t is of type list
+def f(t: list ,T: float) -> list:
+    """ Piecewise function:
+            | 1, 0 < t < T/2
+      f(x)= | 0, t = T/2
+            | -1, T/2 < t < T
+
+        Args:
+            t: list of values of t.
+            n: times to iterate
+            T: constant T
+
+        Result:
+            List with values of f(t).
+    """
+
     res = []
     for i in t:
         if 0 < i and i < T/2:
