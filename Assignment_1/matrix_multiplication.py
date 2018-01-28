@@ -19,21 +19,18 @@ def m_mult(matrix_1, matrix_2):
 
     result = np.matrix(np.zeros((m1_shape[0],m2_shape[1])))
 
-    print(range(m1_shape[1]))
-    print(range(m1_shape[0]))
-    print(result)
-
     if m1_shape[1] != m2_shape[0]:
         print("This matrices cannot be multiplied, they have incopatible shapes!!!!")
         return
     else:
-        for i in range(m1_shape[1]):
-            entry = 0
-            k = 0
-            for j in range(m1_shape[0]):
-                entry += matrix_1[i,j] * matrix_2[j,i]
-            resu
+        for i in range(m1_shape[0]):
+            for j in range(m2_shape[1]):
+                for k in range(m2_shape[0]):
+                    result[i,j] += matrix_1[i,k] * matrix_2[k,j]
+                
     return result
-m1 = rand_matrix(1,3)
-m2 = rand_matrix(3,2)
+
+m1 = rand_matrix(2,3)
+m2 = rand_matrix(3,5)
+
 print(m_mult(m1,m2))

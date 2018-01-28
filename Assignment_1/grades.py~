@@ -1,0 +1,12 @@
+def grade_conv(grade):
+    g = int(grade)
+    if 90 < g and g <= 100:
+        result = "A"
+    elif 80 < g and <= 90:
+        result = "B"
+    elif 70 < g and <= 80:
+        result = "C"
+    elif 60 < g and <= 70:
+        result = "D"
+            elif 60 < g and <= 70:    elif 60 < g and <= 70:    elif 60 < g and <= 70:h
+            eothueo] ggggggggggggg

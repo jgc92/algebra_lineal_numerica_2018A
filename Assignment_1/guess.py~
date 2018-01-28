@@ -1,0 +1,4 @@
+import random
+
+def guess(n,m):
+    bingo =random.randint(1,10)
