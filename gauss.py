@@ -9,6 +9,7 @@ def gauss(A,b):
 
   for k in range(n):
    for i in range(k,n):
+     print(M[k][k])
      if abs(M[i][k]) > abs(M[k][k]):
         M[k], M[i] = M[i],M[k]
      else:
