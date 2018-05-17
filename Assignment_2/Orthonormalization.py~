@@ -1,0 +1,26 @@
+import numpy as np
+    
+def GramSchmidt(A):
+    m,n = A.shape
+
+    Q = np.zeros((m, m))
+    R = np.zeros((n, n))
+
+    for j in range(n):
+        v = A[:, j]
+        for i in range(j):
+            R[i, j] = Q[:, i].T * A[:, j]
+            v = v.squeeze() - R[i, j] * Q[:, i]
+
+        R[j, j] = np.linalg.norm(v)
+        Q[:, j] = (v / R[j, j]).squeeze()
+
+    return (Q, R)
+
+
+A = np.matrix([[0,1,1],[1,1,2],[0,0,3]])
+q,r = GramSchmidt(A)
+print(q)
+print(r)
+
+#https://github.com/philwilt/gram_schmidt/blob/master/gram_schmidt.py

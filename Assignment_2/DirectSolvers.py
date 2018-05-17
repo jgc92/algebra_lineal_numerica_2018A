@@ -160,9 +160,7 @@ def GaussJordan(A: list ,b: list ,verbose=False) -> np.matrix:
 
     return x
 
-
 # For testing
-
 #A = [[1,1,1],[2,-3,1],[-1,2,-1]]
 #b = [4,2,-1]
 #x,y = GE(A,True,True)

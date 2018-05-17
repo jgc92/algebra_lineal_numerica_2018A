@@ -1,0 +1,66 @@
+import numpy as np
+
+def jacobi(A,b,N=25,x=None):
+    m,n = len(A[0]),len(A[1])
+    
+    # Create an initial guess if needed    
+    if x is None:
+        x = np.zeros(m)
+
+    # Create a vector of the diagonal elements of A
+    # and subtract them from A
+    D = np.diag(A)
+    R = A - np.diagflat(D)
+
+    # Iterate for N times
+    for i in range(N):
+        prev_x = x
+        it = i + 1
+        x = (b - np.dot(R, x)) / D
+        err = np.linalg.norm(prev_x - x, np.inf)
+        if err <= 0.01:
+        #if np.allclose(x, prev_x, rtol=1e-10):
+            break
+    return x
+#https://www.quantstart.com/articles/Jacobi-Method-in-Python-and-NumPy
+
+def SOR(A,b,w,N=25,x=None):
+    m,n = len(A[0]),len(A[1])
+    
+    # Create an initial guess if needed    
+    if x is None:
+        x = np.zeros(m)
+
+    # Create a vector of the diagonal elements of A
+    # and subtract them from A
+    #D = np.diagflat(np.diag(A))
+    D = np.diagflat(np.diag(A))
+    L = np.tril(A,-1)
+    U = np.triu(A,1)
+
+    # Iterate for N times
+    for i in range(N):
+        prev_x = x
+        x = np.dot(np.linalg.inv(D + w*L),(w*b - np.dot((w*U + (w-1)*D),x)))
+        err = np.linalg.norm(prev_x - x, np.inf)
+        if err <= 0.01:
+        #if np.allclose(x, prev_x, rtol=1e-10):
+            break
+    return x, err
+
+def GaussSeidel(A,b,N=25,x=None):
+    return SOR(A,b,1,N,x)
+
+A = np.array([[16,3],[7,-11]])
+b = np.array([11,13])
+guess = np.array([1.0,1.0])
+
+#sol = jacobi(A,b,N=25,x=None)
+#sol = SOR(A,b,1,100,None)
+#sol = GaussSeidel(A,b,100,x=None)
+
+#print(sol)
+
+
+
+

@@ -1,6 +1,7 @@
 import numpy as np
 from copy import copy
 from DirectSolvers import *
+from Orthonormalization import *
 
 def LUGauss(M: list) -> (np.matrix):
     """ LU decompositions using Gaussian Elimination without pivoting. Done in a hurry, expect bugs JGC.
@@ -16,7 +17,7 @@ def LUGauss(M: list) -> (np.matrix):
 
     # Gaussian Elimination no pivoting
     # Get multipliers
-    U, multi_matrix = GE(M,multipliers=True)
+    U, multi_matrix = GE(M,pivoting=False,multipliers=True)
 
     # Construct L
     L = np.matrix(np.tril(multi_matrix))
@@ -96,11 +97,35 @@ def Cholesky(M: list) -> (np.matrix):
 
     return L
 
+def QRGramSchmidt(A:np.array) -> (np.matrix,np.matrix):
+    """ QR decomposition using Gram Schmidt method. Done in a hurry, expect bugs JGC.
+        Args:
+            A: A list representation of a matrix, or numpy type matrix.
 
+        Returns:
+            Q: Orthogonal decomposition.
+            R: Upper triangular matrix.
+
+    """
+
+    A = np.matrix(A)
+    m,n = A.shape
+    R = np.zeros((m,n))
+    Q = GramSchimdt(A)
+
+    for i in range(m):
+        for j in range(n):
+            R[i,j] = np.dot(Q[:,i],A[:,j])
+
+    R = np.triu(R)
+
+    return Q,R
 
 # For testing
 #A = [[4,12,-16],[12,37,-43],[-16,-43,98]]
 #print(Cholesky(A))
+#q,r = QRGramSchmidt(A)
+#print(r)
 
 #A = [[1,1,1],[2,-3,1],[-1,2,-1]]
 #b = [4,2,-1]
