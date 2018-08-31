@@ -15,7 +15,7 @@ for i,n in enumerate(trials):
 my_times = []
 native_times = []
     
-for i in range(len(trials)): # Bad but what the heck, who cares
+for i in range(len(trials)):
     my_times.append(take_time(matrices_A[i], matrices_B[i], False))
     native_times.append(take_time(matrices_A[i], matrices_B[i], True))
 
