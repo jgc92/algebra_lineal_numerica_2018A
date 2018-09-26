@@ -38,8 +38,11 @@ def GE(M: list, pivoting=True, multipliers=False) -> np.matrix:
                 
                 
         for i in range(j,rows-1):
+            if M[j,j] == 0:
+                return False
+                
             multi = M[i+1,j] / M[j,j]
-            
+
             if pivoting and maxindex != j:
                 multi_matrix = np.dot(PP,multi_matrix)
 
@@ -100,6 +103,10 @@ def GaussSimple(A: list ,b: list,verbose=False) -> np.matrix:
 
     # Gaussian Elimination, no pivoting
     UT = GE(M, pivoting=False)
+
+    if UT == False:
+        print("Gauss Simple failed: zero in pivot")
+        return 
     
     # Back substitution
     x = BASUB(UT)
@@ -139,45 +146,73 @@ def GaussPartialPivoting(A: list ,b: list, verbose=False ) -> np.matrix:
     return x
 
 
-def GaussJordan(A: list ,b: list ,verbose=False) -> np.matrix:
-    """ Solve Ax=b using Gauss-Jordan. Done in a hurry, expect bugs JGC.
+def LUGauss(M: list) -> (np.matrix):
+    """ LU decompositions using Gaussian Elimination without pivoting. Done in a hurry, expect bugs JGC.
         Args:
-            A: A list representation of a matrix.
-            b: A list representation of a vector.
-            verbose: Bool (optional). For exam purposes.
+            M: A list representation of a matrix.
 
         Returns:
-            x in Ax=b.
+            L and U decompositions in M = LU.
     """
 
-    A = np.matrix(A, dtype=np.float)
-    b = np.matrix(b, dtype=np.float)
-
-    # Augmented matrix
-    M = np.concatenate((A,b.transpose()),1)
+    M = np.matrix(M, dtype=np.float)
     rows, cols = M.shape
 
-    # Gaussian Elimination, no pivoting
-    UT = GE(M)
+    # Gaussian Elimination no pivoting
+    # Get multipliers
+    U, multi_matrix = GE(M,pivoting=False,multipliers=True)
 
-    # Backward Gaussian Elimination, no pivoting
-    for j in range(cols-2,-1,-1):
-        for i in range(j,0,-1):
-            multi = UT[i-1,j] / UT[j,j]
+    # Construct L
+    L = np.matrix(np.tril(multi_matrix))
 
-            UT[i-1,:] = UT[i-1,:] - (multi * UT[j,:])
+    return L, U
 
-    # Back substitution
-    x = BASUB(UT)
-    
-    if verbose:
-        print(UT)
+def LUDoolittle(M: list) -> (np.matrix):
+    """ LU decompositions using Doolittle's method. Done in a hurry, expect bugs JGC.
+        Args:
+            M: A list representation of a matrix.
 
-    return x
+        Returns:
+            L and U decompositions in M = LU.
+    """
+    M = np.matrix(M, dtype=np.float)
+    rows, cols = M.shape
 
-# For testing
-#A = [[1,1,1],[2,-3,1],[-1,2,-1]]
-#b = [4,2,-1]
-#x,y = GE(A,True,True)
-#print(y)
-#print(GaussSimple(A,b))
+
+    # Create zero matrices for L and U
+    L = np.matrix(np.zeros((rows,cols)))
+    U = np.matrix(np.zeros((rows,cols)))
+
+    for j in range(cols):
+        for i in range(j + 1):
+            # Better way to do the sums
+            acc1 = sum(U[k,j] * L[i,k] for k in range(i))
+            U[i,j] = M[i,j] - acc1
+
+        for i in range(j, rows):
+            # Better way to do the sums
+            acc2 = sum(U[k,j] * L[i,k] for k in range(j))
+            L[i,j] = (M[i,j] - acc2) / U[j,j]
+
+    return L,U
+
+def PLUGauss(M: list) -> (np.matrix):
+    """PA = LU decompositions using Gaussian Elimination with pivoting. Done in a hurry, expect bugs JGC.
+        Args:
+            M: A list representation of a matrix.
+
+        Returns:
+            P,L and U decompositions in PM = LU.
+    """
+
+    M = np.matrix(M, dtype=np.float)
+    rows, cols = M.shape
+
+    # Gaussian Elimination no pivoting
+    # Get multipliers
+    U, multi_matrix, P = GE(M,pivoting=True,multipliers=True)
+
+    # Construct L
+    L = np.matrix(np.tril(multi_matrix))
+
+    return L, U, P

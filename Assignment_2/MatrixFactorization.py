@@ -53,6 +53,28 @@ def LUDoolittle(M: list) -> (np.matrix):
 
     return L,U
 
+def PLUGauss(M: list) -> (np.matrix):
+    """PA = LU decompositions using Gaussian Elimination with pivoting. Done in a hurry, expect bugs JGC.
+        Args:
+            M: A list representation of a matrix.
+
+        Returns:
+            P,L and U decompositions in PM = LU.
+    """
+
+    M = np.matrix(M, dtype=np.float)
+    rows, cols = M.shape
+
+    # Gaussian Elimination no pivoting
+    # Get multipliers
+    U, multi_matrix, P = GE(M,pivoting=True,multipliers=True)
+
+    # Construct L
+    L = np.matrix(np.tril(multi_matrix))
+
+    return L, U, P
+
+
 def Cholesky(M: list) -> (np.matrix):
     """ LL* or Cholesky decomposition. Done in a hurry, expect bugs JGC.
         Args:
@@ -120,20 +142,4 @@ def QRGramSchmidt(A:np.array) -> (np.matrix,np.matrix):
     R = np.triu(R)
 
     return Q,R
-
-# For testing
-#A = [[4,12,-16],[12,37,-43],[-16,-43,98]]
-#print(Cholesky(A))
-#q,r = QRGramSchmidt(A)
-#print(r)
-
-#A = [[1,1,1],[2,-3,1],[-1,2,-1]]
-#b = [4,2,-1]
-#x,y = GE(A,True,True)
-#print(y)
-#print(GaussSimple(A,b))
-#print(LUGauss(A))
-
-    
-
 
