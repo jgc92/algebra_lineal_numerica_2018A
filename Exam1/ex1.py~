@@ -1,0 +1,7 @@
+import numpy as np
+
+def T_matrix(n):
+    if n < 3:
+        return "invalid n"
+    else:
+        

@@ -14,7 +14,8 @@ params = np.linalg.solve(R,np.dot(np.transpose(Q),b))
 plt.plot(X,Y,'*')
 x = np.arange(0,1,0.01)
 y = params[0,0] + params[1,0] * x
+print(y)
 plt.plot(x,y)
 
-plt.show()
+#plt.show()
 

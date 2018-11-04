@@ -1,0 +1,12 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def fn(x):
+    return 3 np.sin(x-1)
+
+x = 2 * np.pi * np.random.rand(100)
+epsilon = -0.3 * (0.6) * np.random.rand(100)
+
+y = fn(x) + epsilon
+
+A = np.zeros((100,3))
