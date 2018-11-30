@@ -17,10 +17,7 @@ U, sigma, VT = np.linalg.svd(A)
 Sigma = np.zeros(A.shape)
 Sigma[:len(sigma),:len(sigma)] = np.diag(sigma)
 
-(U.dot(Sigma).dot(VT) - A).round(4)
-
 sol = VT.T @ np.linalg.pinv(Sigma) @ U.T @ np.log(y/x)
-
 xp = np.linspace(0.1,1.9,50)
 fn = np.exp(sol[0]) * xp * np.exp(sol[1]*xp)
 

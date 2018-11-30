@@ -9,7 +9,7 @@ def LUTridiagonal(A:np.array) -> (np.matrix, np.matrix):
             L: Lower triangular matrix.
             U: Upper triangular matrix.
     """
-    
+
     A = np.matrix(A)
     m,n = A.shape
     d = np.squeeze(np.asarray(A.diagonal()))
@@ -48,7 +48,7 @@ def SolveTridiagonal(A:np.array ,b:np.array) -> np.array:
     n = len(d)
     x = np.zeros(n)
     x[0] = b[0]
-    
+
     for i in range(1,n):
         x[i] = b[i] - a[i-1] * x[i-1]
 
@@ -60,10 +60,8 @@ def SolveTridiagonal(A:np.array ,b:np.array) -> np.array:
     return x
 
 # For testing
-#A = np.matrix([[1,4,0,0],[3,4,1,0],[0,2,3,4],[0,0,1,3]])
-#b = np.array([1,3,4,0])
+A = np.matrix([[1,4,0,0],[3,4,1,0],[0,2,3,4],[0,0,1,3]])
+b = np.array([1,3,4,0])
 
-#x = SolveTridiagonal(A,b)
-#print(x)
-
-
+x = SolveTridiagonal(A,b)
+print(x)
