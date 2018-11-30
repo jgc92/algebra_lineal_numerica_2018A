@@ -1,5 +1,8 @@
 import numpy as np
 
+def rayleigh(A,v):
+    return (v.T @ A @ v)/(v.T @ v)
+
 def Power(A,x=None,N=25,tol=1e-10):
     if x is None:
         x = np.random.rand(A.shape[0])
@@ -13,8 +16,10 @@ def Power(A,x=None,N=25,tol=1e-10):
             break
 
         x = x_new / x_new_norm
+        lam = rayleigh(A,x)
+
     print('Itr:', N)
-    return x
+    return x, lam
 
 def InversePower(A,x=None,N=25,tol=1e-10):
     if x is None:
@@ -33,9 +38,11 @@ def InversePower(A,x=None,N=25,tol=1e-10):
 
         x = x_new / x_new_norm
         micra = np.dot(x, np.dot(A,x)) / np.dot(x,x)
+        lam = rayleigh(A,x)
+
 
     print("Itrs", N)
-    return x
+    return x, lam
 
 A = np.array([[2,1,1],[1,2,1],[1,1,2]])
 x = np.array([1,-1,2])
